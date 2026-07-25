@@ -1,0 +1,52 @@
+name: Build & Release Desktop Application
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build for ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            artifact_name: yt-dlp-desktop-gui.exe
+            output_path: dist/yt-dlp-desktop-gui.exe
+          - os: macos-latest
+            artifact_name: yt-dlp-desktop-gui-mac
+            output_path: dist/yt-dlp-desktop-gui
+          - os: ubuntu-latest
+            artifact_name: yt-dlp-desktop-gui-linux
+            output_path: dist/yt-dlp-desktop-gui
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run PyInstaller Build
+      run: |
+        python build.py
+
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: yt-dlp-desktop-gui-${{ matrix.os }}
+        path: ${{ matrix.output_path }}
+        if-no-files-found: error

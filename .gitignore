@@ -1,0 +1,29 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+bin/
+build/
+dist/
+*.spec
+
+# Installer files
+*.exe
+*.dmg
+*.app
+*.AppImage
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Config files
+config.json
+
+# Local binaries folder (in case we download locally during development)
+local_bin/
