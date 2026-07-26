@@ -18,6 +18,7 @@ def run_build():
         "--windowed",
         "--name=yt-dlp-desktop-gui",
         "--collect-all=customtkinter",
+        "--icon=assets/app_icon.png",
         entry_point
     ]
 
