@@ -38,7 +38,8 @@ def load_config():
         "name_template": "%(title)s [%(id)s].%(ext)s",
         "embed_thumbnail": True,
         "embed_subtitles": False,
-        "extract_audio": False
+        "extract_audio": False,
+        "browser_cookies": "none"
     }
 
     if os.path.exists(CONFIG_PATH):
@@ -185,6 +186,22 @@ class App(ctk.CTk):
         )
         self.audio_cb.grid(row=0, column=2, padx=25, pady=5, sticky="w")
 
+        # Browser cookies dropdown
+        self.cookies_frame = ctk.CTkFrame(self.options_frame, fg_color="transparent")
+        self.cookies_frame.grid(row=3, column=0, columnspan=4, padx=15, pady=(5, 15), sticky="w")
+
+        self.cookies_label = ctk.CTkLabel(self.cookies_frame, text="Use Browser Cookies:", font=ctk.CTkFont(weight="bold"))
+        self.cookies_label.grid(row=0, column=0, padx=(0, 5), pady=0, sticky="w")
+
+        self.cookies_var = ctk.StringVar(value=self.config["browser_cookies"])
+        self.cookies_dropdown = ctk.CTkOptionMenu(
+            self.cookies_frame,
+            values=["none", "brave", "chrome", "chromium", "edge", "firefox", "opera", "safari", "vivaldi", "whale"],
+            variable=self.cookies_var,
+            command=self.on_setting_changed
+        )
+        self.cookies_dropdown.grid(row=0, column=1, padx=(5, 15), pady=0, sticky="w")
+
         # ------------------ Row 2: EXECUTION & PROGRESS PANEL ------------------
         self.execution_frame = ctk.CTkFrame(self)
         self.execution_frame.grid(row=2, column=0, padx=20, pady=10, sticky="ew")
@@ -316,6 +333,7 @@ class App(ctk.CTk):
         self.config["embed_thumbnail"] = self.thumb_var.get()
         self.config["embed_subtitles"] = self.subs_var.get()
         self.config["extract_audio"] = self.audio_var.get()
+        self.config["browser_cookies"] = self.cookies_var.get()
         save_config(self.config)
 
     def on_audio_toggle(self):
@@ -398,6 +416,7 @@ class App(ctk.CTk):
             embed_thumbnail=embed_thumb,
             embed_subtitles=embed_subs,
             extract_audio=extract_audio,
+            browser_cookies=self.config["browser_cookies"],
             name_template=name_template,
             progress_callback=self.on_progress_update,
             log_callback=self._write_to_log,

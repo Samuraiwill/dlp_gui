@@ -51,6 +51,7 @@ class TestParserAndDownloader(unittest.TestCase):
             embed_subtitles=False,
             extract_audio=False,
             name_template="%(title)s.%(ext)s",
+            browser_cookies="none",
             progress_callback=None,
             log_callback=None,
             completion_callback=None
