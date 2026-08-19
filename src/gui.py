@@ -38,7 +38,8 @@ def load_config():
         "name_template": "%(title)s [%(id)s].%(ext)s",
         "embed_thumbnail": True,
         "embed_subtitles": False,
-        "extract_audio": False
+        "extract_audio": False,
+        "browser_cookies": "none"
     }
 
     if os.path.exists(CONFIG_PATH):
@@ -78,7 +79,7 @@ class App(ctk.CTk):
 
         # Set default window icon (Base64-encoded PNG)
         try:
-            icon_data = "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAnElEQVQ4T2MYPcAOiL8D8X8gHgDE76EYm2AAn8GIYfX///8XgPgrEG8AYgZ0AegYpA7D//9QfB6I/wLxRSDmQBeEjv/9/6P278ehGYZhwF+C7fofCWA0DJC0//8fdfz/Y7gAn9FA2v79v78D8XcgZkAXYCgGoNivQPwdmU8vGLgD8W4gXgHEDOjkZgPEn4EYK6BiEIDpB8T/8YsBALC2T67iLpujAAAAAElFTkSuQmCC"
+            icon_data = "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"
             icon_img = tk.PhotoImage(data=base64.b64decode(icon_data))
             self.iconphoto(True, icon_img)
         except Exception:
@@ -184,6 +185,22 @@ class App(ctk.CTk):
             self.checkbox_frame, text="Extract Audio Only", variable=self.audio_var, command=self.on_audio_toggle
         )
         self.audio_cb.grid(row=0, column=2, padx=25, pady=5, sticky="w")
+
+        # Browser cookies dropdown
+        self.cookies_frame = ctk.CTkFrame(self.options_frame, fg_color="transparent")
+        self.cookies_frame.grid(row=3, column=0, columnspan=4, padx=15, pady=(5, 15), sticky="w")
+
+        self.cookies_label = ctk.CTkLabel(self.cookies_frame, text="Use Browser Cookies:", font=ctk.CTkFont(weight="bold"))
+        self.cookies_label.grid(row=0, column=0, padx=(0, 5), pady=0, sticky="w")
+
+        self.cookies_var = ctk.StringVar(value=self.config["browser_cookies"])
+        self.cookies_dropdown = ctk.CTkOptionMenu(
+            self.cookies_frame,
+            values=["none", "brave", "chrome", "chromium", "edge", "firefox", "opera", "safari", "vivaldi", "whale"],
+            variable=self.cookies_var,
+            command=self.on_setting_changed
+        )
+        self.cookies_dropdown.grid(row=0, column=1, padx=(5, 15), pady=0, sticky="w")
 
         # ------------------ Row 2: EXECUTION & PROGRESS PANEL ------------------
         self.execution_frame = ctk.CTkFrame(self)
@@ -316,6 +333,7 @@ class App(ctk.CTk):
         self.config["embed_thumbnail"] = self.thumb_var.get()
         self.config["embed_subtitles"] = self.subs_var.get()
         self.config["extract_audio"] = self.audio_var.get()
+        self.config["browser_cookies"] = self.cookies_var.get()
         save_config(self.config)
 
     def on_audio_toggle(self):
@@ -398,6 +416,7 @@ class App(ctk.CTk):
             embed_thumbnail=embed_thumb,
             embed_subtitles=embed_subs,
             extract_audio=extract_audio,
+            browser_cookies=self.config["browser_cookies"],
             name_template=name_template,
             progress_callback=self.on_progress_update,
             log_callback=self._write_to_log,

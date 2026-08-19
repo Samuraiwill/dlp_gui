@@ -61,7 +61,7 @@ class DirectDownloader:
     Streams real-time console logs and progress status back to the main UI thread.
     """
     def __init__(self, url, save_dir, preset, container, embed_thumbnail,
-                 embed_subtitles, extract_audio, name_template,
+                 embed_subtitles, extract_audio, name_template, browser_cookies,
                  progress_callback, log_callback, completion_callback):
         self.url = url
         self.save_dir = save_dir
@@ -71,6 +71,7 @@ class DirectDownloader:
         self.embed_subtitles = embed_subtitles
         self.extract_audio = extract_audio
         self.name_template = name_template
+        self.browser_cookies = browser_cookies
 
         # Callbacks
         self.progress_callback = progress_callback
@@ -151,6 +152,10 @@ class DirectDownloader:
             cmd.extend(["--write-subs", "--embed-subs"])
         if not self.extract_audio:
             cmd.append("--embed-metadata")
+
+        # Cookies
+        if self.browser_cookies and self.browser_cookies != "none":
+            cmd.extend(["--cookies-from-browser", self.browser_cookies])
 
         # Add URL
         cmd.append(self.url)
